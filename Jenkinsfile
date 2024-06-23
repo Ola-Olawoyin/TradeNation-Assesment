@@ -1,45 +1,80 @@
 pipeline {
-
     agent any
 
-
-    options{
-        ansiColor('xterm')
+    environment {
+        NODE_ENV = 'development'
     }
 
-
+    tools {
+        nodejs 'NodeJS' // Assumes you have NodeJS configured in Jenkins Global Tool Configuration
+    }
 
     stages {
-        stage('Building') {
-            steps{
-                echo "Building The Application Under Test" 
-            }
-           
-        }
-
-        stage('Testing') {
+        stage('Checkout') {
             steps {
             
-                git url: 'https://github.com/Ola-Olawoyin/TradeNation-Assesment.git'
-                 bat 'npm install'
-                bat 'npm update'
-                 bat 'npm run test-headless'
-
+                git branch: 'master', url: 'https://github.com/Ola-Olawoyin/TradeNation-Assesment.git'
             }
         }
 
-    
-     stage('Deploying') {
-           steps{
-          echo "Deploying The Application Under Test"
-        }
-           } 
-
-        post{
-           always{
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-           } 
+        stage('Install Dependencies') {
+            steps {
+              
+                bat 'npm install'
+            }
         }
 
-    
+        stage('Run Tests') {
+            steps {
+          
+                bat 'npm run test:headless'
+            }
+        }
+
+        stage('Generate Report') {
+            steps {
+               
+                bat 'npm run mochawesome-merge'
+            }
+        }
+
+        stage('Archive and Publish Report') {
+            steps {
+                
+                archiveArtifacts artifacts: 'cypress/results/mochawesome/*.json', allowEmptyArchive: true
+
+               
+                publishHTML(target: [
+                    reportDir: 'cypress/results/mochawesome',
+                    reportFiles: 'mochawesome.html',
+                    reportName: 'Mochawesome Report',
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true
+                ])
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+               
+                echo 'Deploying application...'
+                
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up workspace after build
+            cleanWs()
+        }
+        success {
+            // Notify success
+            echo 'Build and deployment succeeded!'
+        }
+        failure {
+            // Notify failure
+            echo 'Build or deployment failed!'
+        }
+    }
 }
