@@ -1,71 +1,41 @@
 pipeline {
+
     agent any
+
+
+    options{
+        ansiColor('xterm')
+    }
 
     tools {nodejs "node"}
 
 
     stages {
-        stage('Checkout') {
+        stage('Building') {
+            echo "Building The Application Under Test"
+        }
+
+        stage('Testing') {
             steps {
-                // Checkout the source code from the repository
-                git branch: 'master', url: 'https://github.com/Ola-Olawoyin/TradeNation-Assesment.git'
+            
+                git url: 'https://github.com/Ola-Olawoyin/TradeNation-Assesment.git'
+                 bat 'npm install'
+                bat 'npm update'
+                 bat 'npm run test-headless'
+
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                // Install Node.js dependencies
-                {
-                    sh 'npm install'
-                    sh 'npm update'
-                    }
-                }
-            }
+    
+     stage('Deploying') {
+            echo "Deploying The Application Under Test"
         }
 
-        stage('Run Cypress Tests') {
-            steps {
-                // Run Cypress tests
-                sh 'npm run test-headless'
-            }
+        post{
+           always{
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+           } 
         }
 
-        stage('Generate Mochawesome Report') {
-            steps {
-                // Generate the Mochawesome report
-                sh 'npm run delete-mochawesome-report && npm run mochawesome-merge'
-            }
-        }
-
-        stage('Publish Report') {
-            steps {
-                // Archive the test report
-                archiveArtifacts artifacts: 'cypress/results/mochawesome/*.json', allowEmptyArchive: true
-
-                // Publish the Mochawesome report
-                publishHTML(target: [
-                    reportDir: 'cypress/results/mochawesome',
-                    reportFiles: 'mochawesome.html',
-                    reportName: 'Mochawesome Report',
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true
-                ])
-            }
-        }
-    }
-
-    post {
-        always {
-            // Clean up workspace after build
-            cleanWs()
-        }
-        success {
-            // Notify success
-            echo 'Build succeeded!'
-        }
-        failure {
-            // Notify failure
-            echo 'Build failed!'
-        }
-    }
+    
 }
