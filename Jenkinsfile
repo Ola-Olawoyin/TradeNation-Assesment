@@ -27,7 +27,7 @@ pipeline {
         stage('Run Tests') {
             steps {
           
-                bat 'npm run test:headless'
+                bat 'npm run test-headless'
             }
         }
 
