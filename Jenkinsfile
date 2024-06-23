@@ -12,7 +12,10 @@ pipeline {
 
     stages {
         stage('Building') {
-            echo "Building The Application Under Test"
+            steps{
+                echo "Building The Application Under Test" 
+            }
+           
         }
 
         stage('Testing') {
@@ -28,8 +31,10 @@ pipeline {
 
     
      stage('Deploying') {
-            echo "Deploying The Application Under Test"
+           steps{
+          echo "Deploying The Application Under Test"
         }
+           } 
 
         post{
            always{
