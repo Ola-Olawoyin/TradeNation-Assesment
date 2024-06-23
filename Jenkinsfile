@@ -35,28 +35,7 @@ pipeline {
             }
         }
 
-        stage('Generate Report') {
-            steps {
-               
-                bat 'npm run mochawesome-merge'
-            }
-        }
-
-        stage('Archive and Publish Report') {
-            steps {
-                
-                archiveArtifacts artifacts: 'cypress/results/mochawesome/*.json', allowEmptyArchive: true
-
-               
-                publishHTML(target: [
-                    reportDir: 'cypress/results/mochawesome',
-                    reportFiles: 'mochawesome.html',
-                    reportName: 'Mochawesome Report',
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true
-                ])
-            }
-        }
+       
 
         stage('Deploy') {
             steps {
