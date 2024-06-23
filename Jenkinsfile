@@ -6,7 +6,11 @@ pipeline {
     }
 
     tools {
-        nodejs 'node' // Assumes you have NodeJS configured in Jenkins Global Tool Configuration
+        nodejs 'node' 
+    }
+
+    options{
+        ansiColor('xterm')
     }
 
     stages {
