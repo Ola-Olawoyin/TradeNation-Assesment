@@ -1,9 +1,9 @@
-import { locators } from "../others/utils";
+import { locators, string } from "../others/utils";
 
 class TradeNationHomePage {
   visitHomePage() {
-    cy.visit("/");
-    cy.viewport(2000, 1500);
+    cy.visit("/" + string.endpoint);
+
     try {
       cy.contains("Accept all cookies").click();
     } catch (error) {}

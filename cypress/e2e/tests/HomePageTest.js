@@ -11,7 +11,6 @@ describe("Home Page Test", () => {
   });
 
   it("Validates HomePage Navigation Successfully", () => {
-    homePage.visitHomePage();
     homePage.getTitle().should("contain.string", string.homePageTitle);
   });
   it("Validates Trade Nation Logo Successfully", () => {

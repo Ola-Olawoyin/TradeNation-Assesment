@@ -12,6 +12,7 @@ class TradeNationLoginPage {
 
   navigateToLoginWithGooglePage() {
     cy.get(locators.usernameLocator).type(string.username);
+
     cy.log(string.username);
     cy.get(locators.loginWithGoogleButton).click();
   }
@@ -21,11 +22,8 @@ class TradeNationLoginPage {
   }
 
   validateLoginWithGoogleError() {
-    cy.origin("https://accounts.google.com", () => {
-      const _ = Cypress.require("lodash");
-      const utils = Cypress.require("../others/utils.js");
-
-      cy.get(utils.googleErrorLocator)
+    cy.origin(Cypress.env("googleUrl"), () => {
+      cy.get(Cypress.env("googleErrorLocator"))
         .invoke("text")
         .then((error) => {
           cy.log(error);

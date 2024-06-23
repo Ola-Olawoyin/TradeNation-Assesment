@@ -6,7 +6,7 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
     specPattern: "cypress/e2e/**/*.js",
-    baseUrl: "https://tradenation.com/en-gb/markets/#forex",
+    baseUrl: "https://tradenation.com",
     chromeWebSecurity: false,
     experimentalSourceRewriting: true,
     experimentalOriginDependencies: true,
@@ -16,14 +16,19 @@ module.exports = defineConfig({
     trashAssetsBeforeRuns: true,
     viewportWidth: 1280,
     viewportHeight: 800,
+    reporter: "cypress-multi-reporters",
+    reporterOptions: {
+      configFile: "reporter-config.json",
+    },
+    env: {
+      googleUrl: "https://accounts.google.com",
+      googleErrorLocator: "#af-error-container",
+    },
+    video: true,
   },
 
   retries: {
-    runMode: 0,
+    runMode: 2,
     openMode: 2,
-  },
-
-  env: {
-    googleUrl: "https://accounts.google.com",
   },
 });

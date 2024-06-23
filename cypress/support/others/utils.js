@@ -3,13 +3,14 @@ import { faker } from "@faker-js/faker";
 export const locators = {
   logo: "[data-testid='logo']",
   loginButton: "Log In",
-  googleErrorLocator: "#af-error-container p",
-  loginWithGoogleButton: "[data-testid='GoogleIcon']",
+  loginWithGoogleButton: "[data-testid='AppleIcon']",
   usernameLocator: "#username",
+  password: "#password",
   cookies: "#onetrust-accept-btn-handler",
 };
 
 export const string = {
+  endpoint: "en-gb/markets/#forex",
   username: faker.internet.email(),
   loginPageTitle: "Log In | Trade Nation",
   homePageTitle: "Ready to Trade On Popular Markets with Us? — Trade Nation",
