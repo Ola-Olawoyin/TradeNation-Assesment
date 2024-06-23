@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 export const locators = {
   logo: "[data-testid='logo']",
   loginButton: "Log In",
-  loginWithGoogleButton: "[data-testid='AppleIcon']",
+  loginWithGoogleButton: "[data-testid='GoogleIcon']",
   usernameLocator: "#username",
   password: "#password",
   cookies: "#onetrust-accept-btn-handler",
