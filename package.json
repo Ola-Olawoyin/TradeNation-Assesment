@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test-headless": "npx cypress run",
+    "test-Homepage": "npx cypress run --spec cypress/e2e/tests/HomepageTest.js",
     "test-headed": "npx cypress run --headed",
     "test-chrome": "npx cypress run --browser chrome",
     "mochawesome-merge": "npx mochawesome-merge cypress/results/mochawesome/*.json > mochawesome.json && npx marge mochawesome.json",
