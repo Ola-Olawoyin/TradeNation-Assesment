@@ -6,7 +6,7 @@ pipeline {
     }
 
     tools {
-        nodejs 'NodeJS' // Assumes you have NodeJS configured in Jenkins Global Tool Configuration
+        nodejs 'node' // Assumes you have NodeJS configured in Jenkins Global Tool Configuration
     }
 
     stages {
