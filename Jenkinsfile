@@ -16,8 +16,8 @@ pipeline {
             steps {
                 // Install Node.js dependencies
                 {
-                    bat 'npm install'
-                    bat 'npm update'
+                    sh 'npm install'
+                    sh 'npm update'
                     }
                 }
             }
@@ -26,14 +26,14 @@ pipeline {
         stage('Run Cypress Tests') {
             steps {
                 // Run Cypress tests
-                bat 'npm run test-headless'
+                sh 'npm run test-headless'
             }
         }
 
         stage('Generate Mochawesome Report') {
             steps {
                 // Generate the Mochawesome report
-                bat 'npm run delete-mochawesome-report && npm run mochawesome-merge'
+                sh 'npm run delete-mochawesome-report && npm run mochawesome-merge'
             }
         }
 
